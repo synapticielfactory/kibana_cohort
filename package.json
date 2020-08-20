@@ -1,0 +1,42 @@
+{
+  "name": "kibana_cohort",
+  "version": "0.0.1",
+  "description": "Cohort Analysis",
+  "private": true,
+  "author": "Yassine LASRI <yassine.lasri@synapticiel.co>",
+  "license": "MIT",
+  "contributors": [],
+  "kibana": {
+    "version": "kibana",
+    "templateVersion": "1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/synapticielfactory/kibana_cohort.git"
+  },
+  "keywords": [
+    "cohort",
+    "kibana",
+    "plugin",
+    "visualization",
+    "churn",
+    "retention"
+  ],
+  "homepage": "https://github.com/synapticielfactory/kibana_cohort",
+  "bugs": {
+    "url": "https://github.com/synapticielfactory/kibana_cohort/issues"
+  },
+  "scripts": {
+    "preinstall": "node ../../preinstall_check",
+    "kbn": "node ../../scripts/kbn",
+    "es": "node ../../scripts/es",
+    "lint": "eslint .",
+    "start": "plugin-helpers start",
+    "test:server": "plugin-helpers test:server",
+    "test:browser": "plugin-helpers test:browser",
+    "build": "plugin-helpers build"
+  },
+  "devDependencies": {
+    "@kbn/plugin-helpers": "link:../../packages/kbn-plugin-helpers"
+  }
+}

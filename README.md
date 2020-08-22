@@ -138,3 +138,28 @@ The plugin can then be installed like this
 ```
 kibana-plugin install https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
 ```
+
+## Install on Windows
+
+````
+kibana-plugin.bat install https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
+Attempting to transfer from https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
+Transferring 815445 bytes....................
+Transfer complete
+Retrieving metadata from plugin archive
+Extracting plugin archive
+Extraction complete
+Plugin installation complete
+````
+
+## Remove on Windows
+
+````
+kibana-plugin.bat list
+kibana_cohort@0.0.1
+
+kibana-plugin.bat remove kibana_cohort
+Removing kibana_cohort...
+Plugin removal complete
+
+````

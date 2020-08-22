@@ -136,5 +136,5 @@ The **cohort period** bucket is the "cohort" itself that determine the x-axis. I
 The plugin can then be installed like this
 
 ```
-kibana-plugin install https://github.com/guyplusplus/Kibana-Plugin-Custom-Form-Filter-Visualization/releases/download/7.9.0-1.0.2/vis_type_custom_form_filter_accounts_7.9.0_1.0.2.zip
+kibana-plugin install https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
 ```

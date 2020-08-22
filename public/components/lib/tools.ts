@@ -91,6 +91,7 @@ export function processData(esData: any, dateHistogram: any, formatTime: any) {
 }
 
 // https://stackoverflow.com/questions/19757638/how-to-pivot-a-table-with-d3-js
+
 /**
  *
  * @param {object} data
@@ -103,6 +104,9 @@ export function pivotData(data: any, dateHistogram: any, formatTime: any) {
     .nest()
     .key(function (d: any) {
       return d.date;
+    })
+    .key(function (d: any) {
+      return d.total;
     })
     .rollup(function (values) {
       const sortedValues = values.sort(function (x: any, y: any) {
@@ -118,6 +122,8 @@ export function pivotData(data: any, dateHistogram: any, formatTime: any) {
       const pivotedX = sortedValues.map(function (d: any) {
         return mkKey(d.period, {
           value: d.value,
+          total: d.total,
+          cumulativeValue: d.cumulativeValue,
         });
       });
 
@@ -127,16 +133,56 @@ export function pivotData(data: any, dateHistogram: any, formatTime: any) {
   const nestedData = nester.entries(data);
   const pivotedData: any = [];
 
-  nestedData.forEach(function (kv1) {
+  nestedData.forEach(function (kv1: any) {
     const a = kv1.key;
-    const obj: any = {
-      date: dateHistogram ? formatTime(new Date(Date.parse(a))) : a,
-    };
+    kv1.values.forEach(function (kv2: any) {
+      const b = kv2.key;
+      const obj: any = {
+        date: dateHistogram ? formatTime(new Date(Date.parse(a))) : a,
+        Metric: b,
+      };
 
-    kv1.values.forEach(function (d: any) {
-      obj[d.name] = d.value;
+      kv2.values.forEach(function (d: any) {
+        obj[d.name] = d.value;
+        // obj[d.name] = { value: d.value, total: d.total, cumulativeValue: d.cumulativeValue };
+      });
+      pivotedData.push(obj);
     });
-    pivotedData.push(obj);
   });
   return pivotedData;
+}
+
+/**
+ * @param {number} value
+ * @param {any} item
+ * @param {boolean} percentual
+ * @param {boolean} inverse
+ * @returns {string} color
+ */
+export function perc2color(value: number, item: any, percentual: boolean, inverse: boolean) {
+  if (!value) {
+    return '';
+  }
+  if (parseNumber(value) === parseNumber(item.Metric)) {
+    return '#D36086';
+  } else {
+    if (percentual || inverse) {
+      if (value >= 75) {
+        // 75% to 100%
+        return '#6DCCB1';
+      } else if (value >= 50 && value < 75) {
+        // 50% to 75%
+        return '#79AAD9';
+      } else if (value >= 25 && value < 50) {
+        // 25% to 50%
+        return '#F5A35C';
+      } else {
+        // 0% to 25%
+        return '#E7664C';
+      }
+    } else {
+      // Values are not in %
+      return '';
+    }
+  }
 }

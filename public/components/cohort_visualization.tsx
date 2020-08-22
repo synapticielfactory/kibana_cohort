@@ -19,7 +19,6 @@
 
 import React from 'react';
 import { EuiPanel } from '@elastic/eui';
-import { round } from 'lodash';
 import { useKibana } from '../../../../src/plugins/kibana_react/public';
 import { processData, getDateHistogram, pivotData, getFormatTypes } from './lib/tools';
 import { CohortPivotTable } from './pivot_table';
@@ -60,7 +59,7 @@ class CohortVisComponent extends React.Component<CohortVisComponentProp> {
    * Render the actual HTML.
    */
   render() {
-    const { visData, visParams, services }: any = this.props;
+    const { visData, visParams, vis, config, services }: any = this.props;
     const { table, percentual, inverse, cumulative }: any = visParams;
     const dateHistogram = getDateHistogram(visData);
     const formatTimeFn = getFormatTypes(dateHistogram);
@@ -68,12 +67,14 @@ class CohortVisComponent extends React.Component<CohortVisComponentProp> {
     const dataRows = dataRaw.map((item: any) => ({
       date: item.date,
       period: item.period,
+      total: item.total,
+      cumulativeValue: item.cumulativeValue,
       value: percentual
-        ? round((item.value / item.total) * 100, 2)
+        ? Math.round((item.value / item.total) * 100)
         : cumulative
         ? item.cumulativeValue
         : inverse
-        ? round(100 - (item.value / item.total) * 100)
+        ? Math.round(100 - (item.value / item.total) * 100)
         : item.value,
     }));
     const dataPivoted = pivotData(dataRows, dateHistogram, formatTimeFn);
@@ -81,17 +82,19 @@ class CohortVisComponent extends React.Component<CohortVisComponentProp> {
     // @ts-ignore
     if (table) {
       return (
-        <EuiPanel paddingSize="m">
+        <EuiPanel paddingSize="l" hasShadow>
           <CohortPivotTable
             deps={{
               data: dataPivoted,
+              percentual,
+              inverse,
             }}
           />
         </EuiPanel>
       );
     } else {
       return (
-        <EuiPanel paddingSize="m">
+        <EuiPanel paddingSize="l" hasShadow>
           <CohortPivotChart
             deps={{
               data: dataRows,

@@ -39,8 +39,8 @@ export const CohortPivotGrid = (props: any) => {
     }, arr);
   }, []);
 
-  const i: any = _.uniq(keys.filter((item: any) => item !== 'date')).sort();
-
+  const i: any = _.uniq(keys.filter((item: any) => item !== 'date' && item !== 'Metric')).sort();
+  i.unshift('Metric');
   i.forEach((e: any) => {
     columns.push({
       id: e,
@@ -78,14 +78,17 @@ export const CohortPivotGrid = (props: any) => {
     return ({ rowIndex, columnId, setCellProps }: any) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useEffect(() => {
-        if (data.hasOwnProperty(rowIndex)) {
-          if (data[rowIndex][columnId]) {
-            // const numeric = parseFloat(data[rowIndex][columnId].match(/\d+\.\d+/)[0]);
-            setCellProps({
-              style: {
-                backgroundColor: `rgba(0, 255, 0, ${10 * 0.0002})`,
-              },
-            });
+        if (columnId === 'value' || columnId === 'total' || columnId === 'cumulativeValue') {
+          if (data.hasOwnProperty(rowIndex)) {
+            const row = data[rowIndex][columnId];
+            if (row) {
+              const numeric = parseFloat(row.match(/\d+\.\d+/)[0]);
+              setCellProps({
+                style: {
+                  backgroundColor: `rgba(0, 255, 0, ${numeric * 0.02})`,
+                },
+              });
+            }
           }
         }
       }, [rowIndex, columnId, setCellProps]);

@@ -28,7 +28,7 @@ export const CohortPivotChart = (props: any) => {
       <Settings
         theme={services.charts.theme.useChartsTheme()}
         showLegend={true}
-        legendPosition="right"
+        legendPosition="left"
       />
       <LineSeries
         id="cohort"
@@ -37,7 +37,6 @@ export const CohortPivotChart = (props: any) => {
         xAccessor={'period'}
         yAccessors={['value']}
         splitSeriesAccessors={['date']}
-        yScaleType="linear"
       />
       <Axis
         id="bottom-axis"

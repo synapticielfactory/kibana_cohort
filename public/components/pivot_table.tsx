@@ -19,18 +19,17 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { EuiInMemoryTable } from '@elastic/eui';
-// @ts-ignore
-import { formatDate } from '@elastic/eui/lib/services/format';
+import { EuiInMemoryTable, EuiLink, EuiCode } from '@elastic/eui';
+import { perc2color } from './lib/tools';
 
 export const CohortPivotTable = (props: any) => {
-  const { data } = props.deps;
+  const { data, percentual, inverse } = props.deps;
   const columns: any = [
     {
       field: 'date',
-      name: 'Cohort Group',
+      name: 'Cohort',
       sortable: true,
-      width: '20%',
+      width: '10%',
     },
   ];
 
@@ -40,13 +39,37 @@ export const CohortPivotTable = (props: any) => {
       return a;
     }, arr);
   }, []);
-  const i: any = _.uniq(keys.filter((item: any) => item !== 'date')).sort();
+  const i: any = _.uniq(keys.filter((item: any) => item !== 'date' && item !== 'Metric')).sort(
+    function (a: any, b: any) {
+      return a - b;
+    }
+  );
+
+  i.unshift('Metric');
 
   i.forEach((e: any) => {
     columns.push({
       field: e,
       name: e,
       sortable: true,
+      render: (value: any, item: any) => {
+        return (
+          <div
+            style={{
+              width: 100,
+              padding: 1,
+              background: perc2color(value, item, percentual, inverse),
+              // background: perc2color(value, 0, 100),
+              /* background: `rgba(0, 179, 164, ${
+                value && value !== item.Metric ? value * 0.001 : 0
+              })`,*/
+            }}
+            className="eui-textNoWrap"
+          >
+            {value ? value : null}
+          </div>
+        );
+      },
     });
   });
 

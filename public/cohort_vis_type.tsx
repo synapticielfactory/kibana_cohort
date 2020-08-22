@@ -30,8 +30,16 @@ export function getCohortVisDefinition(deps: CohortPluginSetupDependencies) {
   return {
     name: 'cohort',
     title: 'Cohort',
-    icon: 'wrench',
-    description: 'Cohort Analysis Visualization',
+    icon: 'stats',
+    description:
+      'Cohort analysis is a subset of behavioral analytics that takes the data from a given eCommerce platform, web application, or online game and rather than looking at all users as one unit, it breaks them into related groups for analysis. These related groups, or cohorts, usually share common characteristics or experiences within a defined time-span',
+    options: {
+      hierarchicalData: true,
+      showFilterBar: true,
+      showIndexSelection: true,
+      showQueryBar: true,
+      showTimePicker: true,
+    },
     visConfig: {
       defaults: {
         percentual: true, // Show percentual values
@@ -97,10 +105,12 @@ export function getCohortVisDefinition(deps: CohortPluginSetupDependencies) {
         },
       ]),
     },
-    stage: 'experimental',
+    // stage: 'experimental',
     requestHandler: 'courier',
     responseHandler: 'none',
     hierarchicalData: true,
     enableAutoApply: true,
+    feedbackMessage:
+      'Have feedback ? Please create an issue in <a href="https://github.com/synapticielfactory/kibana_cohort/issues" target="_blank">GitHub.<a/>',
   };
 }

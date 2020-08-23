@@ -1,6 +1,6 @@
 {
   "name": "kibana_cohort",
-  "version": "0.0.1",
+  "version": "7.9.0",
   "description": "Cohort Analysis",
   "private": true,
   "author": "Yassine LASRI <yassine.lasri@synapticiel.co>",

@@ -1,6 +1,6 @@
 {
   "id": "kibanaCohort",
-  "version": "0.0.1",
+  "version": "7.9.0",
   "kibanaVersion": "kibana",
   "ui": true,
   "server": true,

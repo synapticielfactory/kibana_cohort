@@ -1,3 +1,4 @@
+POST _bulk
 {"index": {"_index": "food_relay", "_id": 262}}
 {"order_id": "262", "order_date": "2009-01-11", "user_id": "47", "total_charges": "50.67", "common_id": "TRQKD", "pup_id": "2", "pickup_date": "2009-01-12", "first_order_date": "2009-01-11", "dayUntilReturn": "0"}
 {"index": {"_index": "food_relay", "_id": 278}}

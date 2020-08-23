@@ -1,6 +1,85 @@
+# Kibana Plugin - Cohort Analysis
+
+This project is a simple tutorial for Kibana new comers trying to develop their own vizualisation plugin. The actual usecase of this plugin is to create a custom cohort visualization based on React and Elastic EUI.
+
+As plugin architecture is being under heavy redesign in 7.x and documentation is rather obscure, I did my best to create something simple that works. The code is also basic, I am JS & React beginner.
+
+This repository is for Kibana v7.8.x plugin New Platform (NP)
+
+This plugin is inspired from the [elo7 plugin](https://github.com/elo7/cohort)
+
+## Sample Screenshots
+
+Few screen shots which makes it very easy to understand.
+
+<img src="./screens/cohort_table.png" align="middle">
+This is an example of Cohort analysis using Elastic EUI Table
+
+
+
+<img src="./screens/cohort_chart.png" align="middle">
+This is an example of Cohort analysis using Elastic EUI Charts
+
+<img src="./screens/cohort_dashboard.png" align="middle">
+This is an example of Cohort analysis Visualization inside a dashboard.
+
+<img src="./screens/canevas.png" align="middle">
+This is an example of Cohort analysis Visualization inside a Canevas Workpad.
+
+
+
+
+## Usage
+
+ The **total** metric is the value that determine y-axis. Can be either a count or a sum. It also possible to use the percentual as y value just marking the option `Show percetual values`.
+
+<img src="./screens/metric.png" align="middle">
+
+
+The **cohort date** bucket is the date used to draw the chart lines. Each bucket is a line in this chart. It should be a date histogram.
+
+<img src="./screens/date.png" align="middle">
+
+The **cohort period** bucket is the "cohort" itself that determine the x-axis. It should be a numeric histogram.
+
+<img src="./screens/period.png" align="middle">
+
+## Installing the plugin
+
+The plugin can then be installed like this
+
+```
+kibana-plugin install https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
+```
+
+## Install on Windows
+
+````
+kibana-plugin.bat install https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
+Attempting to transfer from https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
+Transferring 815445 bytes....................
+Transfer complete
+Retrieving metadata from plugin archive
+Extracting plugin archive
+Extraction complete
+Plugin installation complete
+````
+
+## Remove on Windows
+
+````
+kibana-plugin.bat list
+kibana_cohort@0.0.1
+
+kibana-plugin.bat remove kibana_cohort
+Removing kibana_cohort...
+Plugin removal complete
+
+````
+
 # Cohort Analysis
 
-This part was found [here](https://www.kdnuggets.com/2016/05/clevertap-use-cohort-analysis-improve-customer-retention.html)
+This interesting article was found [here](https://www.kdnuggets.com/2016/05/clevertap-use-cohort-analysis-improve-customer-retention.html)
 
 Long-term success for app developers does not mean only getting someone to download their app, but also getting them to make repeat visits. To get to the must-have value proposition of your app product, you need to go beyond vanity metrics – like download counts and even daily active users (DAU) / monthly active users (MAU) – that only measure growth and retention superficially. You need to dig deeper into your app using a method –Cohort Analysis.
 
@@ -89,77 +168,3 @@ From this data, you can develop a systematic, quantitative approach to know how 
 Conclusion
 
 The power of cohort analysis lies in the fact that, it enables not only to view which customers leave and when they leave, but also to understand why the customers leave your app – so that you can fix it. That’s how one can identify how well the users are being retained and also determine the primary factors driving the growth, engagement and revenue for the app.
-
-# Kibana Plugin - Cohort Analysis
-
-This project is a simple tutorial for Kibana new comers trying to develop their own vizualisation plugin. The actual usecase of this plugin is to create a custom cohort visualization based on React and Elastic EUI.
-
-As plugin architecture is being under heavy redesign in 7.x and documentation is rather obscure, I did my best to create something simple that works. The code is also basic, I am JS & React beginner.
-
-This repository is for Kibana v7.8.x plugin New Platform (NP)
-
-This plugin is adapted from the [elo7 plugin](https://github.com/elo7/cohort)
-
-## Sample Screenshots
-
-Few screen shots which makes it very easy to understand.
-
-<img src="./screens/cohort_table.png" align="middle">
-This is an example of Cohort analysis using Elastic EUI Table
-
-
-
-<img src="./screens/cohort_chart.png" align="middle">
-This is an example of Cohort analysis using Elastic EUI Charts
-
-<img src="./screens/cohort_dashboard.png" align="middle">
-This is an example of Cohort analysis Visualization inside a dashboard.
-
-
-## Usage
-
- The **total** metric is the value that determine y-axis. Can be either a count or a sum. It also possible to use the percentual as y value just marking the option `Show percetual values`.
-
-<img src="./screens/metric.png" align="middle">
-
-
-The **cohort date** bucket is the date used to draw the chart lines. Each bucket is a line in this chart. It should be a date histogram.
-
-<img src="./screens/date.png" align="middle">
-
-The **cohort period** bucket is the "cohort" itself that determine the x-axis. It should be a numeric histogram.
-
-<img src="./screens/period.png" align="middle">
-
-## Installing the plugin
-
-The plugin can then be installed like this
-
-```
-kibana-plugin install https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
-```
-
-## Install on Windows
-
-````
-kibana-plugin.bat install https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
-Attempting to transfer from https://github.com/synapticielfactory/kibana_cohort/releases/download/v7.8.0/kibana_cohort_7.8.0_0.0.1.zip
-Transferring 815445 bytes....................
-Transfer complete
-Retrieving metadata from plugin archive
-Extracting plugin archive
-Extraction complete
-Plugin installation complete
-````
-
-## Remove on Windows
-
-````
-kibana-plugin.bat list
-kibana_cohort@0.0.1
-
-kibana-plugin.bat remove kibana_cohort
-Removing kibana_cohort...
-Plugin removal complete
-
-````

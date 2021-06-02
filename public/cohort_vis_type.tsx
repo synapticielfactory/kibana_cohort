@@ -17,22 +17,22 @@
  * under the License.
  */
 
-import React from 'react';
-import { KibanaContextProvider } from '../../../src/plugins/kibana_react/public';
-import { CohortVisComponentWraper } from './components/cohort_visualization';
-import { CohortOptionsParams } from './cohort_vis_options';
-import { Schemas } from '../../../src/plugins/vis_default_editor/public';
-import { AggGroupNames } from '../../../src/plugins/data/public';
-import { CohortPluginSetupDependencies } from './plugin';
-import { CohortVisComponentProp } from './types';
 
-export function getCohortVisDefinition(deps: CohortPluginSetupDependencies) {
-  return {
+import { CohortOptionsParams } from './cohort_vis_options';
+import { AggGroupNames } from '../../../src/plugins/data/public';
+import { VisTypeDefinition } from '../../../src/plugins/visualizations/public/vis_types/types';
+import { VIS_EVENT_TO_TRIGGER } from '../../../src/plugins/visualizations/public';
+import { toExpressionAst } from './to_ast';
+
+// @ts-ignore
+export const getCohortVisDefinition: VisTypeDefinition = {
     name: 'cohort',
     title: 'Cohort',
     icon: 'stats',
-    description:
-      'Cohort analysis is a subset of behavioral analytics that takes the data from a given eCommerce platform, web application, or online game and rather than looking at all users as one unit, it breaks them into related groups for analysis. These related groups, or cohorts, usually share common characteristics or experiences within a defined time-span',
+    description: 'Cohort behavioral analytics Plugin',
+    getSupportedTriggers: () => {
+      return [VIS_EVENT_TO_TRIGGER.filter];
+    },
     options: {
       hierarchicalData: true,
       showFilterBar: true,
@@ -48,17 +48,12 @@ export function getCohortVisDefinition(deps: CohortPluginSetupDependencies) {
         table: true, // Show values as table
         mapColors: 'heatmap', // Show heatmap colors
       },
-      // Main component controller to render the Viz
-      component: (props: CohortVisComponentProp) => (
-        <KibanaContextProvider services={{ ...deps }}>
-          <CohortVisComponentWraper {...props} />
-        </KibanaContextProvider>
-      ),
     },
+    toExpressionAst,
     editorConfig: {
       optionsTemplate: CohortOptionsParams,
       // Data Schema for Metrics & Buckets
-      schemas: new Schemas([
+      schemas: [
         {
           group: AggGroupNames.Metrics,
           name: 'metric',
@@ -103,14 +98,8 @@ export function getCohortVisDefinition(deps: CohortPluginSetupDependencies) {
             },
           ],
         },
-      ]),
+      ],
     },
-    // stage: 'experimental',
-    requestHandler: 'courier',
-    responseHandler: 'none',
-    hierarchicalData: true,
-    enableAutoApply: true,
-    feedbackMessage:
-      'Have feedback ? Please create an issue in <a href="https://github.com/synapticielfactory/kibana_cohort/issues" target="_blank">GitHub.<a/>',
-  };
-}
+    requiresSearch: true,
+    hierarchicalData: true
+};

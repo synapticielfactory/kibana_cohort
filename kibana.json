@@ -1,8 +1,9 @@
 {
-  "id": "kibanaCohort",
-  "version": "7.9.0",
+  "id": "cohortVisualization",
+  "version": "7.12.0",
   "kibanaVersion": "kibana",
-  "ui": true,
-  "server": true,
-  "requiredPlugins": ["expressions", "visualizations", "data", "charts", "kibanaUtils", "kibanaReact"]
+  "requiredPlugins": ["data", "expressions", "visualizations", "charts"],
+  "optionalPlugins": ["kibanaUtils", "kibanaReact"],
+  "server": false,
+  "ui": true
 }

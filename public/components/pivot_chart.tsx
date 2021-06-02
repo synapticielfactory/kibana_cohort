@@ -16,9 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import React from 'react';
+// @ts-ignore
+import React, { useEffect } from 'react';
 import { Chart, Settings, Axis, LineSeries } from '@elastic/charts';
+
 
 export const CohortPivotChart = (props: any) => {
   const { data, services } = props.deps;
@@ -27,8 +28,8 @@ export const CohortPivotChart = (props: any) => {
     <Chart>
       <Settings
         // https://github.com/elastic/kibana/blob/master/src/plugins/charts/public/services/theme/README.md
-        theme={services.charts.theme.useChartsTheme()}
-        baseTheme={services.charts.theme.useChartsBaseTheme()}
+        //theme={npStart.charts.theme.useChartsTheme()}
+        //baseTheme={npStart.charts.theme.useChartsBaseTheme()}
         showLegend={true}
         legendPosition="left"
       />

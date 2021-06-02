@@ -1,7 +1,7 @@
 {
-  "name": "kibana_cohort",
-  "version": "7.9.0",
-  "description": "Cohort Analysis",
+  "name": "cohort_visualization",
+  "version": "7.12.0",
+  "description": "Cohort Analysis Plugin",
   "private": true,
   "author": "Yassine LASRI <yassine.lasri@synapticiel.co>",
   "license": "MIT",
@@ -27,16 +27,14 @@
     "url": "https://github.com/synapticielfactory/kibana_cohort/issues"
   },
   "scripts": {
-    "preinstall": "node ../../preinstall_check",
     "kbn": "node ../../scripts/kbn",
     "es": "node ../../scripts/es",
     "lint": "eslint .",
-    "start": "plugin-helpers start",
-    "test:server": "plugin-helpers test:server",
-    "test:browser": "plugin-helpers test:browser",
-    "build": "plugin-helpers build"
-  },
-  "devDependencies": {
-    "@kbn/plugin-helpers": "link:../../packages/kbn-plugin-helpers"
+    "start": "yarn plugin_helpers start",
+    "build": "yarn plugin_helpers build",
+    "test": "../../node_modules/.bin/jest --config ./test/jest.config.js",
+    "cypress:run": "../../node_modules/.bin/cypress run",
+    "cypress:open": "../../node_modules/.bin/cypress open",
+    "plugin_helpers": "node ../../scripts/plugin_helpers"
   }
 }

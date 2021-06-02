@@ -54,9 +54,9 @@ const parseNumber = (x: any) => {
  * @returns {string|undefined}
  */
 export function getDateHistogram(visData: any) {
-  const schema = visData.columns.find((column: any) => column.meta.type === 'date_histogram');
+  const schema = visData.columns.find((column: any) => column.meta.sourceParams.type === 'date_histogram');
   if (schema) {
-    return schema.meta.aggConfigParams.interval;
+    return schema.meta.sourceParams.params.interval;
   }
 }
 
@@ -68,16 +68,18 @@ export function getDateHistogram(visData: any) {
  * @returns {array}
  */
 export function processData(esData: any, dateHistogram: any, formatTime: any) {
+  console.log(esData)
   if (!(Array.isArray(esData.rows) && esData.rows.length)) {
     return [];
   }
+
 
   const data = esData.rows.map((row: any) => {
     return {
       date: dateHistogram ? formatTime(new Date(row['col-0-2'])) : row['col-0-2'],
       period: parseNumber(row['col-2-3']),
-      total: parseNumber(row['col-1-1']),
       value: parseNumber(row['col-3-1']),
+      total: parseNumber(row['col-1-1'])
     };
   });
 
@@ -99,7 +101,7 @@ export function processData(esData: any, dateHistogram: any, formatTime: any) {
  * @param {function} formatTime
  * @returns {array}
  */
-export function pivotData(data: any, dateHistogram: any, formatTime: any) {
+ export function pivotData(data: any, dateHistogram: any, formatTime: any) {
   const nester = d3
     .nest()
     .key(function (d: any) {

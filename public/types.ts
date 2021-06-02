@@ -16,21 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ExprVis, VisParams } from '../../../src/plugins/visualizations/public';
 
 export interface CohortVisParams {
   percentual: boolean; // Show percentual values
   inverse: boolean; // Show inverse values
   cumulative: boolean; // Show cumulative values
   table: boolean; // Show values as table
-  mapColors: any; // Show heatmap colors
-}
-
-export interface CohortVisComponentProp extends CohortVisParams {
-  renderComplete: () => {};
-  config: any;
-  vis: ExprVis;
-  visData: any;
-  visParams: VisParams;
-  services: any;
+  metric: any; // these aren't typed yet
+  bucket?: any; // these aren't typed yet
 }

@@ -48,7 +48,7 @@ export const CohortPivotGrid = (props: any) => {
   });
 
   // ** Pagination config
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 25 });
   const onChangeItemsPerPage = useCallback(
     // eslint-disable-next-line no-shadow
     (pageSize) => setPagination((pagination) => ({ ...pagination, pageSize, pageIndex: 0 })),

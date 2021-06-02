@@ -16,13 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
+// @ts-ignore
 import React, { useCallback, Fragment } from 'react';
 import { EuiCheckbox, EuiFlexItem, EuiIconTip, EuiFlexGroup } from '@elastic/eui';
-import { VisOptionsProps } from '../../../src/plugins/vis_default_editor/public';
+import { VisEditorOptionsProps } from '../../../src/plugins/visualizations/public';
 import { CohortVisParams } from './types';
 
-function CohortOptionsParams({ stateParams, setValue }: VisOptionsProps<CohortVisParams>) {
+function CohortOptionsParams({ stateParams, setValue }: VisEditorOptionsProps<CohortVisParams>) {
   const onChangePercentual = useCallback(
     (value: CohortVisParams['percentual']) => setValue('percentual', value),
     [setValue]

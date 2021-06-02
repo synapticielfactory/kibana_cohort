@@ -1,30 +1,20 @@
 /*
- * Licensed to Elasticsearch B.V. under one or more contributor
- * license agreements. See the NOTICE file distributed with
- * this work for additional information regarding copyright
- * ownership. Elasticsearch B.V. licenses this file to you under
- * the Apache License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
+ * or more contributor license agreements. Licensed under the Elastic License
+ * 2.0 and the Server Side Public License, v 1; you may not use this file except
+ * in compliance with, at your election, the Elastic License 2.0 or the Server
+ * Side Public License, v 1.
  */
 
-import { PluginInitializerContext, CoreSetup, CoreStart, Plugin } from '../../../src/core/public';
+import { CoreSetup, Plugin } from '../../../src/core/public';
 import { DataPublicPluginSetup, DataPublicPluginStart } from '../../../src/plugins/data/public';
 import { Plugin as ExpressionsPublicPlugin } from '../../../src/plugins/expressions/public';
 import { VisualizationsSetup } from '../../../src/plugins/visualizations/public';
-import { ConfigSchema } from '../config';
-import { getCohortVisDefinition } from './cohort_vis_type';
-import { setFormatService } from './services';
 import { ChartsPluginSetup } from '../../../src/plugins/charts/public';
+
+import { selfChangingVisRenderer } from './cohort_vis_renderer';
+import { getCohortVisDefinition } from './cohort_vis_type';
+import { createCohortFn } from './cohort_vis_function';
 
 /** @internal */
 export interface CohortVisPluginStartDependencies {
@@ -32,35 +22,49 @@ export interface CohortVisPluginStartDependencies {
 }
 
 /** @internal */
-export interface CohortPluginSetupDependencies {
-  expressions: ReturnType<ExpressionsPublicPlugin['setup']>;
-  visualizations: VisualizationsSetup;
-  data: DataPublicPluginSetup;
+export interface CohortVisDependencies {
   charts: ChartsPluginSetup;
 }
 
 /** @internal */
-export class CohortVisPlugin implements Plugin<void, void> {
-  initializerContext: PluginInitializerContext<ConfigSchema>;
-
-  constructor(initializerContext: PluginInitializerContext<ConfigSchema>) {
-    this.initializerContext = initializerContext;
-  }
-
-  public setup(
-    coreSetup: CoreSetup,
-    { expressions, visualizations, data, charts }: CohortPluginSetupDependencies
-  ) {
-    const deps: CohortPluginSetupDependencies = {
-      expressions,
-      visualizations,
-      data,
-      charts,
-    };
-    // React Visualization Type
-    visualizations.createReactVisualization(getCohortVisDefinition(deps));
-  }
-  public start(core: CoreStart, { data }: CohortVisPluginStartDependencies) {
-    setFormatService(data.fieldFormats);
-  }
+export interface CohortPluginSetupDependencies {
+  expressions: ReturnType<ExpressionsPublicPlugin['setup']>;
+  visualizations: VisualizationsSetup;
 }
+
+export class CohortVisualizationsPublicPlugin
+  implements Plugin<CohortVisualizationsSetup, CohortVisualizationsStart> {
+  public setup(core: CoreSetup, { expressions, visualizations }: CohortPluginSetupDependencies) {
+    /**
+     * Register an expression function with type "render" for your visualization
+     * register an expression function definition to handle your custom expression
+     * using expressions.registerFunction( functionDefinition ), 
+     * where the functionDefinition describes your expression parameters.
+     */
+    expressions.registerFunction(createCohortFn);
+
+    /**
+     * Register a renderer for your visualization
+     * register an explicit renderer for your visualization using 
+     * expressions.registerRenderer( rendererDefinition ),
+     * where the rendererDefinition is type of ExpressionRenderDefinition.
+     */
+
+    expressions.registerRenderer(selfChangingVisRenderer());
+
+    /**
+     * Create the visualization type with definition
+     * register a visualization type using visualizations.createBaseVisualization( config ) function, 
+     * where the config should be a type of VisTypeDefinition. 
+     * VisTypeDefinition is documented (see src/plugins/visualizations/public/vis_types/types.ts) 
+     * for usability.
+     */
+     visualizations.createBaseVisualization(getCohortVisDefinition);
+  }
+
+  public start() {}
+  public stop() {}
+}
+
+export type CohortVisualizationsSetup = ReturnType<CohortVisualizationsPublicPlugin['setup']>;
+export type CohortVisualizationsStart = ReturnType<CohortVisualizationsPublicPlugin['start']>;

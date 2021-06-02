@@ -1,8 +1,0 @@
-{
-  "id": "kibanaCohort",
-  "version": "0.0.1",
-  "kibanaVersion": "kibana",
-  "ui": true,
-  "server": true,
-  "requiredPlugins": ["expressions", "visualizations", "data", "charts", "kibanaUtils", "kibanaReact"]
-}

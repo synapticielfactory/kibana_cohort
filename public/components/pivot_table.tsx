@@ -59,10 +59,6 @@ export const CohortPivotTable = (props: any) => {
               width: 100,
               padding: 1,
               background: perc2color(value, item, percentual, inverse),
-              // background: perc2color(value, 0, 100),
-              /* background: `rgba(0, 179, 164, ${
-                value && value !== item.Metric ? value * 0.001 : 0
-              })`,*/
             }}
             className="eui-textNoWrap"
           >
